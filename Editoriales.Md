@@ -1,8 +1,13 @@
 ## Cyclic Shifts
+
 https://dmoj.ca/problem/ccc20j4
+
 Una rotacion de una cadena es cuando desplazamos todos los caracteres de una cadena 1 indice hacia delante (o hacia atras), con el correspondiente desplazamiento del primer caracter hacia la ultima posicion (o viceversa). Por ejemplo
+
 cadena, adenac, denaca, enacad, nacade, acaden
+
 son todas rotaciones de la palabra cadena
+
 
 En este problema, la entrada consiste en dos cadenas T y s y nuestra tarea es descubrir si en la cadena T aparece alguna rotacion de la cadena s
 
