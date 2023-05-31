@@ -29,3 +29,29 @@ Si estamos en una posicion de Fibonacci entonces, de no ser el primer caracter s
 Si no estamos en una posicion de Fibonacci, de ser la primera letra de la cadena sin analizar una A, entonces detenemos la ejecucion y no se cumple la propiedad. De otra forma pasamos a analizar recursivamente el sgte indice y el resto de la cadena.
 
 El caso base seria cuando no queda cadena por analizar, caso en el cual afirmamos que la propiedad se cumple.
+
+
+## Fibonacci Sequence
+https://dmoj.ca/problem/fibonacci
+
+Este problema pudiera parecer sencillo, generar el n-esimo numero de Fibonacci pero su dificultad radica en el tamanho de n, que puede llegar a ser hasta 10^19.
+
+Luego, lo primero es darnos cuentas que necesitamos un algoritmo logaritmico para calcular el n-esimo termino de la sucesion de Fibonacci. Elegi usar aquel basado en las formulas recursivas
+
+F(2n - 1) = F(n)^2 + F(n - 1)^2
+F(2n) = F(n)*(2*F(n - 1) + F(n))
+
+Pero con esta formula no alcanza, puesto que esta formula genera un arbol de recursion, cuya cantidad de nodos crece en potencias de dos en cada division que se haga; y dado que el logaritmo en base 2 de 10^19 es mayor que 50; para un numero de ese orden el arbol tendria mas de 2^50 nodos, no terminando en tiempo el algoritmo.
+
+No obstante; si simulamos el proceso(ya sea con python como hice, o el propio Haskell) podremos darnos cuenta de que hay numeros puntuales para el cual el calculo de Fibonacci es requerido muy frecuentemente. Luego, usando la tecnica de memization podemos guardar el valor del calculo de Fibonacci para estos numeros. Tras aplicar memoization; y teniendo precomputados los primeros 1000 numeros de Fibonacci (en mi caso); si logramos que nuestro algoritmico sea logaritmico, entrando perfectamente en tiempo
+
+
+Para la implementacion genere los primers 1000 elementos de la sucesion de Fibonacci usando una funcion sencilla para la generacion de la sucesion de Fibonacci. Luego, cree la funcion que se encargaria de responder las querys. Esta funcion toma el indice soliciado y una lista con los primeros numeros d Fibonacci asi como un diccionario con los valores de Fibonacci de indices realmente grande ya computados.
+
+El valor de devuelto es una tupla, cuyo primer elemento es la respuesta, mientras que el segundo es un diccionario con todos los nuevos calculos realizados en el. Devolvemos asi, porque al no poder actualizar variables en Haskell, el diccionario original no admitira nuevos calculos; por lo cual debemos evolver un diccionario nuevo.
+
+Luego, este fast_fib solo consiste en, si ya tenemos calculado el valor de n, devolverlo, de otra manera, calcularlo de manera recursiva usando las formulas que se afean un poco debido al uso de los modulos; y crear nuevos diccionarios donde guardar todos los nuevos calculos que realicen las llamadas recursivas que hagamos; para luego devolver este diccionario mas sabio.
+
+
+En la implementacion se hacen necesarias unas cuantas librerias externas, aquellas que contienen a Map, la que contiene al tipo Maybe, que es el tipo de devuelto de la funcion lookup que hace query al Map; la libreria Data.Bits debido al uso que hago de shiftR para acelerar la division.
+Ademas senhalar que en la linea 9 uso Prelude.take en lugar de take porque de otra forma el compilador del juez online me senhala que ocurre ambiguedad al interpretar take

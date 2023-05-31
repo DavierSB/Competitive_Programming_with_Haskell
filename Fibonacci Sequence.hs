@@ -6,7 +6,7 @@ import Data.Bits
 main :: IO ()
 main = do
     input <- getLine
-    let ordinary = take 1000 (fib_tonto 0 1)
+    let ordinary = Prelude.take 1000 (fib_tonto 0 1)
         n = read input :: Integer
     putStr(show (fst(fast_fib ordinary empty n)))
 
