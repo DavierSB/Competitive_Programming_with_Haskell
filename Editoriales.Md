@@ -55,3 +55,11 @@ Luego, este fast_fib solo consiste en, si ya tenemos calculado el valor de n, de
 
 En la implementacion se hacen necesarias unas cuantas librerias externas, aquellas que contienen a Map, la que contiene al tipo Maybe, que es el tipo de devuelto de la funcion lookup que hace query al Map; la libreria Data.Bits debido al uso que hago de shiftR para acelerar la division.
 Ademas senhalar que en la linea 9 uso Prelude.take en lugar de take porque de otra forma el compilador del juez online me senhala que ocurre ambiguedad al interpretar take
+
+
+## Counting Permutations
+Este es un ejercicio de Programacion Dinamica clasico. La formula recursiva la encontre mirando las tablas de valores generados a lo bruto por un programa que hice en python. Una vez que haya logrado aceptar el problema con Haskell buscare el porque la formula funciona
+
+Haskell y la libreria Data.Array resultan ideales para este tipo de ejercicio de Programacion Dinamica donde primeramente se genera una tabla con todos los valores y luego tomar el valor requerido.
+La solucion entra en tiempo perfectamente, no obstante falla en el caso 7 (comenzando a aparecer numeros grandes) por un error del tipo ERROR - Garbage collection fails to reclaim sufficient space.
+Luego regresare a este problema
