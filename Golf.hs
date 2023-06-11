@@ -1,3 +1,4 @@
+https://dmoj.ca/problem/ccc00s4
 import Data.Array
 solve (x:_:z) = let final = read x :: Int
                     clubs = [read e :: Int | e <- z]
