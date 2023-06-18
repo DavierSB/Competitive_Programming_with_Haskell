@@ -1,3 +1,4 @@
+https://dmoj.ca/problem/ccc05j5
 main :: IO ()
 main = interact $
     unlines.(map solve).lines
