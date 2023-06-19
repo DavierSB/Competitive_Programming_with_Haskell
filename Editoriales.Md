@@ -1,6 +1,8 @@
 ## Alice Through the Looking Glass
 https://dmoj.ca/problem/ccc11s3
 
+En este problema Alicia tiene una imagen extraida de su microscopio. Esta dividida en cuadriculas de 5x5. Cada grado de magnificacion divide cada una de las cuadriculas en otra tabla cuadriculada de 5x5. En cada cuadricula, luego de magnificada la imagen puede aparecer hielo del copo de nieve que Alicia esta analizando o no. Nos piden que dados un par de coordenadas y el nivel de magnificacion de la imagen determinemos si en esa posicion se encuentra hielo o no. Por supuesto, sabemos algo sobre el copo de nieve, y es que tiene una forma fractal, cada copo ocupa tres cuadrantes en la base, uno en su segundo nivel, y cada uno de los cuadrantes en los extremos de la base, asi como el superior cumplen que directamente encima de ellos se encuentra otro una figura similar pero a mucho menor escala. En el enunciado del problema podremos ver con mucho mas detalle este patron 
+
 La solucion a este problema es recursiva. Dado el nivel de magnificacion m y las coordenadas (x, y), lo primero seria encontrar en cual cuadrante de una division (5x5) se encuentran las coordenadas actuales. Para ello nos quedamos con las partes enteras de x/(5^(m-1)) y y/(5^(m-1)) ya que cada cuadrante tiene lado 5^(m - 1)
 
 Tambien es util conocer las coordenadas que tiene (x, y) dentro del cuadrante en que se encuentra. Para ello nos quedamos con el resto de las divisiones x/(5^(m-1)) e y/(5^(m-1)). Llamemos a y b a estas nuevas coordenadas
@@ -69,7 +71,6 @@ Pero con esta formula no alcanza, puesto que esta formula genera un arbol de rec
 
 No obstante; si simulamos el proceso(ya sea con python como hice, o el propio Haskell) podremos darnos cuenta de que al calcular el valor del n-esimo numero de FIbonacci hay numeros puntuales para el cual el calculo de Fibonacci es requerido muy frecuentemente, mientras que la enorme mayoria de los restantes numeros entre 1000 y n son completamente ignorados (los numeros pequeños si son todos reuqeridos frecuentemente). Luego, usando la tecnica de memoization podemos guardar el valor del calculo de Fibonacci para los numeros mayores que 1000 mas requeridos. Tras aplicar memoization; y teniendo precomputados los primeros 1000 numeros de Fibonacci (en mi caso, 1000 es un numero arbitrario, pudiera ser cualquier otro); si logramos que nuestro algoritmico sea logaritmico, entrando perfectamente en tiempo
 
-á, é, í, ó, ú
 Para la implementacion generamos los primeros 1000 elementos de la sucesion de Fibonacci usando una funcion sencilla para la generacion de la sucesion de Fibonacci. Luego, cree la funcion que se encargaria de responder las querys, llamada fast_fib. Esta funcion toma el indice solicitado, una lista con los primeros numeros d Fibonacci y un diccionario con los valores de Fibonacci de indices realmente grande ya computados.
 
 El valor de devuelto es una tupla, cuyo primer elemento es la respuesta, mientras que el segundo es un diccionario con todos los nuevos calculos realizados en el. Devolvemos asi, porque al no poder actualizar variables en Haskell, el diccionario original no admitira nuevos calculos; por lo cual debemos devolver un diccionario nuevo.
@@ -92,6 +93,7 @@ Para resolverlo, rellenamos un array, desde la posicion 0 en adelante de la sgte
 
 Hacer esto es realmente sencillo en Haskell valiendonos de la estructura Array
 
+
 ## Pi-Day
 https://dmoj.ca/problem/ccc15j5
 
@@ -102,7 +104,28 @@ Este problma es equivalente a la cantidad de arreglos ordenados de n elementos t
 Luego, usando programacion dinamica podemos crear una tabla de dos dimensiones (n y k); donde la posicion (i, j) valdra lo que la suma de las posiciones (i - 1, j - 1) y (i, j - i). Esto es muy sencillo de hacer usando la estructura Array de la libreria Data.Array
 
 
+## Primes & Pemutations
+https://dmoj.ca/problem/dmopc21c5p3
+
+Un robot comienza en un edificio de altura n. Este edificio se encuentra en un conglomerado de edificios cuyas alturas constituyen una permutacion de los numeros desde 1 hasta n. El robot solo puede saltar a edificios de menor altura que se encuentren a una distancia prima del edificio en el que se encuentra. Dos ninhos juegan a mover el robot. Pierde aquel que no pueda hacer ningun movimiento. El inventor del juego desea saber si para ciertos valores de n existen permutaciones en las que aunque los dos jugadores jueguen de manera optima siempre gana el primer ninho. Luego nos pasara una serie de casos de pruebas con tales valores de n y en caso de existir tal permutacion donde siempre puede ganar el primero, debemos devolver la menor lexicograficamente hablando.
+
+Este es un problema de Teoria de juegos que puede ser resuelto usando programacion dinamica. O sea, para cada valor de n, encontramos si al comenzar el robot en la ultima posicion de la permutacion ordenada (que sera la menor lexicograficamente) es una posicion ganadora para el primer jugador o no. Una posicion sera ganadora si se encuentra a distancia prima de una posicion perdedora y por tanto podemos llevar el robot alli forzando al rival a encontrarse en una posicion perdedora. Las posiciones 1 y 2 son perdedoras porque no existe movimiento que se pueda realizar. La posicion 3 es ganadora porque al mover el robor dos edificios (numero primo) forzamos al rival a una posicion perdedora. Asi, el ejercicio va de rellenar un arreglo, donde vamos posicion por posicion comprobando si es una posicion perdedora o ganadora y almacenamos tal dato. Para comprobar el estado de una posicion probamos con todos los primos menores que ella y vemos si un salto de esa longitud nos lleva a una posicion ganadora. A pesar de que esto aparentemente tiene complejidad cercana a la cuadratica, en realidad, dada la predominancia de las posiciones ganadoras, sera muy inferior, puesto que para cada posicion ganadora encontrar una posicion ganadora que se encuentre a la distancia de un salto primo sera relativamente sencillo. Para precomputar estos calculos creamos un array de los brindados por la estrutura Data.Array
+
+Luego, al procesar cada query, si el valor de la query corresponde a una posicion ganadora, entonces sencillamente podemos devolver la permutacion ordenada de menor a mayor. De no ser asi, si la posicion (n - 1) corresponde a una posicion ganadora deberemos devolver el arreglo ordenado de menor a mayor con las dos ultimas posiciones intercambiadas, de manera que la mas alta estara en la posicion (n - 1), ganadora. No pueden existir tres posiciones perdedoras consecutivas, porque como la distancia entre la tercera y la primera es 2 (nuemero primo), entonces de la primera ser perdedora, la ultima sera ganadora. Luego, si ni la posicion n ni la (n-1) son ganadoras, entonces lo sera la (n-2). Luego, devolvemos la permutacion ordenada de menor a mayor pero con una rotacion de los ultimos tres elementos de manera que queden n (n-2) (n-1).
+
+
+
+Inconclusos
+
+## Primes 2
+https://dmoj.ca/problem/primes2
+
+Se trata de generar e imprimir todos los primos entre dos numeros dados cuya separacion no es mayor e 5000000 y losnumeros pueden tener valor de hasta 10^9. Para solucionarlo, primeramente generaremos todos los primos hasta 31623 (techo de la raiz de 10^9). Todo numero no primo menor que 10^9 tiene un factor primo entre estos numeros. Luego el problema se reduce a cribar los numeros del intervalo con todos los primos entre 1 y 31623. Una ultima optimizacion que no hemos llevado a cabo aun va acerca de en lugar de cribar sucesivamente, ir recorriendo los numeros y para cada numer uscar entre sus posibles divisores primos hasta su raiz. De aparecer alguno, en tal caso es que realizamos la criba de los numeros multiplos de tal primo, y luego no comprobamos que este primo sea divisor de ninguno de los futuros primos a analizar. O sea, cribar de manera lazy.
+ 
+
 ## Counting Permutations
+https://dmoj.ca/problem/mathp8
+
 Este es un ejercicio de Programacion Dinamica clasico. La formula recursiva la encontre mirando las tablas de valores generados a lo bruto por un programa que hice en python. Una vez que haya logrado aceptar el problema con Haskell buscare el porque la formula funciona
 
 Haskell y la libreria Data.Array resultan ideales para este tipo de ejercicio de Programacion Dinamica donde primeramente se genera una tabla con todos los valores y luego tomar el valor requerido.

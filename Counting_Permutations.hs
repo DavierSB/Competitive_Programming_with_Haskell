@@ -1,3 +1,4 @@
+-- https://dmoj.ca/problem/mathp8
 import Prelude hiding (lookup)
 import Data.Array
 
