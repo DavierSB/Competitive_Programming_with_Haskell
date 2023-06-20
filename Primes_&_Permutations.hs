@@ -36,5 +36,4 @@ solve input = let x = read input :: Int
                 in value x
 
 main :: IO()
-main = --interact $ unlines.(map solve).tail.lines
-       mem!99000
+main = interact $ unlines.(map solve).tail.lines
